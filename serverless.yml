@@ -1,12 +1,12 @@
-service: notes-api
-frameworkVersion: "2"
+service: sls-app-notes-api
+frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs14.x
-  lambdaHashingVersion: 20201221
+  runtime: nodejs16.x
+  lambdaHashingVersion: 20221221
   stage: ${opt:stage, 'dev'}
-  region: us-east-1
+  region: us-east-2
 
 functions:
   authorizer:
@@ -75,7 +75,8 @@ functions:
           path: notes
           authorizer:
             name: userpool_authorizer
-            arn: ${ssm:/notes/${self:provider.stage}/userPoolArn}
+            type: COGNITO_USER_POOLS
+            arn: !GetAtt cognitoUserPool.Arn
 
 plugins:
   - serverless-iam-roles-per-function

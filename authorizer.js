@@ -12,8 +12,8 @@ const generatePolicy = (principalId, effect, resource) => {
   var tmp = resource.split(':');
   var apiGatewayArnTmp = tmp[5].split('/');
   var resource = tmp[0] + ":" + tmp[1] + ":" + tmp[2] + ":" + tmp[3] + ":" + tmp[4] + ":" + apiGatewayArnTmp[0] + '/*/*'; 
-  var authReponse = {};
-  authReponse.principalId = principalId;
+  var authResponse = {};
+  authResponse.principalId = principalId;
   if (effect && resource) {
     let policyDocument = {
       Version: "2012-10-17",
@@ -25,13 +25,13 @@ const generatePolicy = (principalId, effect, resource) => {
         },
       ],
     };
-    authReponse.policyDocument = policyDocument;
+    authResponse.policyDocument = policyDocument;
   }
-  authReponse.context = {
+  authResponse.context = {
     foo: "bar",
   };
-  console.log(JSON.stringify(authReponse));
-  return authReponse;
+  console.log(JSON.stringify(authResponse));
+  return authResponse;
 };
 
 exports.handler = async (event, context, callback) => {
